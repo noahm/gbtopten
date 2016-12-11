@@ -9,11 +9,11 @@ router.get('/', (req, res, next) => {
 });
 
 /* GB list proxy */
-// router.get('/list', (req, res, next) => {
-//   // const listUrl = 'http://www.giantbomb.com/profile/cathadan/lists/played-in-2016/354562/';
-//   const listUrl = 'http://www.giantbomb.com/profile/cathadan/lists/game-of-the-year-2014-users-choice/270398/';
-//   res.contentType('json');
-//   getListData(listUrl).then(resp => res.send(JSON.stringify(resp)));
-// });
+router.get('/list', (req, res, next) => {
+  // const listUrl = 'http://www.giantbomb.com/profile/cathadan/lists/played-in-2016/354562/';
+  const listUrl = 'http://www.giantbomb.com/profile/cathadan/lists/game-of-the-year-2014-users-choice/270398/';
+  res.contentType('json');
+  getListData(listUrl).then(resp => res.send(JSON.stringify(resp)));
+});
 
 export default router;
