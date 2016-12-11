@@ -4,24 +4,19 @@ var clean = require('gulp-clean');
 var server = require('gulp-develop-server');
 var mocha = require('gulp-mocha');
 
-var serverTS = ["**/*.ts", "!node_modules/**", '!bin/**'];
+var serverTS = ["src/**/*.ts"];
 
 gulp.task('ts', ['clean'], function() {
     return gulp
-        .src(serverTS, {base: './'})
-        .pipe(ts({ module: 'commonjs', noImplicitAny: true }))
-        .pipe(gulp.dest('./'));
+        .src(serverTS, {base: './src'})
+        .pipe(ts({ module: 'commonjs', noImplicitAny: true, target: 'es6' }))
+        .pipe(gulp.dest('./build'));
 });
 
 gulp.task('clean', function () {
     return gulp
         .src([
-            'app.js',
-            '**/*.js',
-            '**/*.js.map',
-            '!node_modules/**',
-            '!gulpfile.js',
-            '!bin/**'
+            'build/*',
         ], {read: false})
         .pipe(clean())
 });
