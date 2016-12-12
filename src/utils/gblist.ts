@@ -1,14 +1,21 @@
 import * as jsdom from 'jsdom';
 
-export interface ListResp {
-    status: "ok" | "error";
-    reason?: "not-a-list" | "parse-failed";
-    list?: GameList;
+type ListResp = ListErrorResp | ListSuccesResp;
+
+interface ListErrorResp {
+    status: "error";
+    reason: "not-a-list" | "parse-failed";
 }
 
-interface GameList {
+interface ListSuccesResp {
+    status: "ok";
+    list: GameList;
+}
+
+export interface GameList {
     title: string;
     author: string;
+    deck: string;
     games?: Array<{
         title: string;
         url: string;
@@ -34,14 +41,13 @@ export function getListData(url: string): Promise<ListResp> {
                 gameList = {
                     title: document.querySelector('article.js-user-list h1').innerHTML,
                     author: document.querySelector('section.profile-title h1').innerHTML,
-                };
-                gameList.games = Array.from(list.children).map(node => {
-                    return {
+                    deck: (document.querySelector('article.js-user-list') as HTMLElement).innerText,
+                    games: Array.from(list.children).map(node => ({
                         title: node.querySelector('h3').innerHTML,
                         url: (node.querySelector('a') as HTMLAnchorElement).href,
                         thumbnailUrl: (node.querySelector('img') as HTMLImageElement).src,
-                    };
-                });
+                    }))
+                };
             } catch (e) {
                 resolve({ status: "error", reason: "parse-failed" });
                 return;
