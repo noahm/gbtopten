@@ -4,7 +4,6 @@ import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
 
 import routes from './routes';
 import * as storage from './storage';
@@ -20,8 +19,6 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

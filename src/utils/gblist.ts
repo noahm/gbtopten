@@ -1,27 +1,6 @@
 import * as jsdom from 'jsdom';
-
-type ListResp = ListErrorResp | ListSuccesResp;
-
-interface ListErrorResp {
-    status: "error";
-    reason: "not-a-list" | "parse-failed";
-}
-
-interface ListSuccesResp {
-    status: "ok";
-    list: GameList;
-}
-
-export interface GameList {
-    title: string;
-    author: string;
-    deck: string;
-    games?: Array<{
-        title: string;
-        url: string;
-        thumbnailUrl: string;
-    }>;
-}
+import { GameList } from '../../models/GameList';
+import { PostList as ListResp } from '../../models/responses';
 
 export function getListData(url: string): Promise<ListResp> {
     if (!url) {
