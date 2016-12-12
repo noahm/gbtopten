@@ -1,77 +1,58 @@
 import { Component } from 'react';
 import * as React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
+import { fetchUsers } from '../actions/users';
+import { GlobalState } from '../state/GlobalState';
 
 import { UserEntry } from '../../models/UserEntry';
 import { ServerState, UserDict } from '../../models/ServerState';
-import { PostList } from '../../models/responses';
+import { FetchProgress } from '../../models/FetchProgress';
 
-interface AppState {
-    users?: UserDict;
-    errorMsg?: string;
-}
-
-export class App extends Component<React.Props<App>, AppState> {
-    constructor(props: React.Props<App>) {
-        super(props);
-        this.state = {};
-    }
-
-    componentWillMount() {
-        this.refreshState();
-    }
-
-    private refreshState() {
-        fetch('/state').then(resp => resp.json() as Promise<UserDict>).then(resp => {
-            this.setState({
-                users: resp,
-            });
-        });
-    }
-
-    private input: HTMLInputElement;
-    render() {
-        if (!this.state.users) {
-            return <div>Loading users...</div>;
-        }
-        return <div>
-            <form onSubmit={this.onSubmitList}>
-                <label>
-                    Your list: <input name="listUrl" ref={e => this.input = e} /> { this.state.errorMsg ? 'Error: ' + this.state.errorMsg : null }
-                    <br />
-                    <button>Submit</button>
-                </label>
-            </form>
-            <h1>Participating users:</h1>
-            <ul>
-                {Object.keys(this.state.users).map(username => <li key={username}>{username} scored {this.state.users[username].listScore}</li>)}
-            </ul>
-        </div>;
-    }
-
-    private onSubmitList = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        fetch('/list', {
-            method: 'POST',
-            body: this.input.value,
-        }).then(resp => {
-            if (!resp.ok) {
-                console.error(resp);
-                return;
-            } else {
-                return resp.json() as Promise<PostList>;
-            }
-        }).then(data => {
-            if (data.status === "error") {
-                this.setState({
-                    errorMsg: data.reason,
-                });
-            } else {
-                this.setState({
-                    errorMsg: null,
-                });
-                this.refreshState();
-            }
-        });
+function mapStateToProps(state: GlobalState): ConnectedProps {
+    return {
+        usersProgress: state.users.progress,
     };
 }
 
+function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
+    return bindActionCreators({
+        fetchUsers: () => dispatch(fetchUsers),
+    }, dispatch);
+}
+
+interface ConnectedProps {
+    usersProgress: FetchProgress;
+}
+
+interface ConnectedDispatch {
+    fetchUsers: () => void;
+}
+
+type AppProps = ConnectedProps & ConnectedDispatch;
+
+class AppClass extends Component<AppProps, void> {
+    componentWillMount() {
+        if (this.props.usersProgress === FetchProgress.Pending) {
+            this.props.fetchUsers();
+        }
+    }
+
+    render() {
+        switch (this.props.usersProgress) {
+            case FetchProgress.Errored:
+                return <div>Failed to fetch user list</div>;
+            case FetchProgress.Done:
+                return <div>
+                    {this.props.children}
+                </div>;
+            case FetchProgress.Pending:
+            case FetchProgress.InFlight:
+            default:
+                return <div>Loading users...</div>;
+        }
+    }
+}
+
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);

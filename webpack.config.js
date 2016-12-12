@@ -1,16 +1,18 @@
 'use strict';
 
+const path = require('path');
 const webpack = require('webpack');
 const packageJson = require('./package.json');
+
+
 
 module.exports = {
     entry: {
         app: './client-src/main.tsx',
-        vendor: Object.keys(packageJson['dependencies']),
     },
     output: {
         path: 'public/js',
-        filename: '[name].js'
+        filename: 'app.js'
     },
     devtool: 'source-map',
     resolve: {
@@ -23,6 +25,5 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
     ],
 };

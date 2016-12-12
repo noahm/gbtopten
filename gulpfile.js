@@ -8,14 +8,11 @@ let gutil = require('gulp-util');
 
 var serverTS = ["src/**/*.ts"];
 
+var tsServerProject = ts.createProject('src/tsconfig.json');
 gulp.task('ts', ['clean'], function() {
     return gulp
         .src(serverTS, {base: './src'})
-        .pipe(ts({
-            module: 'commonjs',
-            noImplicitAny: true,
-            target: 'es6',
-        }))
+        .pipe(tsServerProject())
         .pipe(gulp.dest('./build'));
 });
 
