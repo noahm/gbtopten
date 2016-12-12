@@ -2,3 +2,4 @@ node_modules
 build
 public/js
 db.json
+db.json.gz

@@ -1,16 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as zlib from 'zlib';
 
 import { GameList } from '../../models/GameList';
 import { ServerState as AppState } from '../../models/ServerState';
 import { ListGrader } from '../utils/gblist';
 
-const STORAGE_LOCATION = path.join(__dirname, '..', '..', 'db.json');
+const DEV_STORAGE_LOCATION = path.join(__dirname, '..', '..', 'db.json');
+const PROD_STORAGE_LOCATION = path.join(__dirname, '..', '..', 'db.json.gz');
 
 let instance: Storage;
 
-export function init() {
-    instance = new Storage();
+export function init(env: string) {
+    instance = new Storage(env);
 }
 
 export function get() {
@@ -18,7 +20,7 @@ export function get() {
 }
 
 class Storage {
-
+    private env: string;
     private db: AppState = {
         users: {},
         lists: {},
@@ -26,10 +28,18 @@ class Storage {
     };
     private grader: ListGrader;
 
-    constructor() {
+    constructor(env: string) {
+        this.env = env;
         try {
-            const file = fs.readFileSync(STORAGE_LOCATION, 'utf8');
-            const restoredState = JSON.parse(file);
+            let json: string;
+            switch (env) {
+                case 'development':
+                    json = fs.readFileSync(DEV_STORAGE_LOCATION, 'utf8');
+                    break;
+                default:
+                    json = zlib.gunzipSync(fs.readFileSync(PROD_STORAGE_LOCATION)).toString('utf8');
+            }
+            const restoredState = JSON.parse(json);
             if (!restoredState) {
                 return;
             }
@@ -64,7 +74,20 @@ class Storage {
     }
 
     save() {
-        fs.writeFile(path.join(__dirname, '..', '..', 'db.json'), JSON.stringify(this.db));
+        let db = JSON.stringify(this.db);
+        switch (this.env) {
+            case 'development':
+                fs.writeFile(DEV_STORAGE_LOCATION, db);
+                break;
+            default:
+                zlib.gzip(Buffer.from(db), (err, result) => {
+                    if (err) {
+                        console.error('Failed to zip db while saving', err);
+                        return;
+                    }
+                    fs.writeFile(PROD_STORAGE_LOCATION, result);
+                });
+        }
     }
 }
 

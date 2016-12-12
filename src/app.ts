@@ -8,9 +8,9 @@ import * as cookieParser from 'cookie-parser';
 import routes from './routes';
 import * as storage from './storage';
 
-storage.init();
-
 export const app = express();
+
+storage.init(app.get('env'));
 
 // view engine setup
 app.set('views', path.join(__dirname, '..', 'views'));
