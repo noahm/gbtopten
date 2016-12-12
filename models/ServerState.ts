@@ -1,10 +1,11 @@
 import { UserEntry } from './UserEntry';
 import { GameList } from './GameList';
 
-export type UserList = { [username: string]: UserEntry };
-export type GameListList = { [username: string]: GameList }; 
+export type UserDict = { [username: string]: UserEntry };
+export type GameListDict = { [username: string]: GameList };
 
 export interface ServerState {
-    users: UserList;
-    lists: GameListList;
+    users: UserDict;
+    lists: GameListDict;
+    targetList: GameList;
 }

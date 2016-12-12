@@ -1,3 +1,5 @@
+import { ListScore } from './ListScore';
+
 export interface GameList {
     title: string;
     author: string;
@@ -7,4 +9,5 @@ export interface GameList {
         url: string;
         thumbnailUrl: string;
     }>;
+    score?: ListScore;
 }

@@ -2,11 +2,11 @@ import { Component } from 'react';
 import * as React from 'react';
 
 import { UserEntry } from '../../models/UserEntry';
-import { ServerState, UserList } from '../../models/ServerState';
+import { ServerState, UserDict } from '../../models/ServerState';
 import { PostList } from '../../models/responses';
 
 interface AppState {
-    users?: UserList;
+    users?: UserDict;
     errorMsg?: string;
 }
 
@@ -21,9 +21,9 @@ export class App extends Component<React.Props<App>, AppState> {
     }
 
     private refreshState() {
-        fetch('/state').then(resp => resp.json() as Promise<ServerState>).then(resp => {
+        fetch('/state').then(resp => resp.json() as Promise<UserDict>).then(resp => {
             this.setState({
-                users: resp.users,
+                users: resp,
             });
         });
     }
@@ -43,7 +43,7 @@ export class App extends Component<React.Props<App>, AppState> {
             </form>
             <h1>Participating users:</h1>
             <ul>
-                {Object.keys(this.state.users).map(username => <li key={username}>{username} registered {this.state.users[username].lastEntry}</li>)}
+                {Object.keys(this.state.users).map(username => <li key={username}>{username} scored {this.state.users[username].listScore}</li>)}
             </ul>
         </div>;
     }

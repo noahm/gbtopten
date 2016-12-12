@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 router.get('/state', (req, res, next) => {
   const db = storage.get();
   res.contentType('json');
-  res.send(JSON.stringify(db.getDB()));
+  res.send(JSON.stringify(db.getUsers()));
 });
 
 /* GB list proxy */
