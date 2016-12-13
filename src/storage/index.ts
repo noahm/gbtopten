@@ -4,6 +4,7 @@ import * as zlib from 'zlib';
 
 import { GameList } from '../../models/GameList';
 import { ServerState as AppState } from '../../models/ServerState';
+import { GetList } from '../../models/responses';
 import { ListGrader } from '../utils/gblist';
 
 const DEV_STORAGE_LOCATION = path.join(__dirname, '..', '..', 'db.json');
@@ -57,6 +58,20 @@ class Storage {
     getUsers = () => this.db.users;
     getLists = () => this.db.lists;
     getGrader = () => this.grader;
+
+    getList(username: string): GetList {
+        if (this.db.lists[username]) {
+            return {
+                status: "ok",
+                list: this.db.lists[username],
+            };
+        } else {
+            return {
+                status: "error",
+                reason: "not-found",
+            }
+        }
+    }
 
     addUserList(list: GameList) {
         if (!list.author) {

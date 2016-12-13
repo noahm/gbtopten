@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router';
 
 import { FetchProgress } from '../../../models/FetchProgress';
 import { UserDict } from '../../../models/ServerState';
@@ -13,7 +14,7 @@ export interface ConnectedDispatch {
 
 }
 
-type CombinedTypes = UsersListProps & ConnectedProps;
+type CombinedTypes = UsersListProps & ConnectedProps & ConnectedDispatch;
 
 export class UsersList extends React.Component<CombinedTypes, void> {
     render() {
@@ -21,7 +22,9 @@ export class UsersList extends React.Component<CombinedTypes, void> {
         return <div>
             <h1>Participating users:</h1>
             <ul>
-                {usernames.map(username => <li key={username}>{username} scored {this.props.users[username].listScore}</li>)}
+                {usernames.map(username => <li key={username}>
+                    <Link to={`/${encodeURI(username)}`}>{username}</Link> scored {this.props.users[username].listScore}
+                </li>)}
             </ul>
         </div>;
     }

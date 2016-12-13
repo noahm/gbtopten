@@ -33,7 +33,7 @@ export type FetchUsersFailed = {
     type: FETCH_USERS_FAILED;
 };
 
-function fetchUsersFailed(): FetchUsersFailed { 
+function fetchUsersFailed(): FetchUsersFailed {
     return { type: FETCH_USERS_FAILED };
 }
 
@@ -49,6 +49,6 @@ export function fetchUsers() {
             console.log('Failed to fetch user data', error);
             dispatch(fetchUsersFailed());
         });
-
+        return request;
     };
 }

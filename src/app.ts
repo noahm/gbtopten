@@ -5,7 +5,6 @@ import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 
-import routes from './routes';
 import apiRoutes from './routes/api';
 import * as storage from './storage';
 
@@ -23,14 +22,18 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use('/', routes);
 app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
-app.use((req: Request, res: Response, next: Function) => {
-  var err: any = new Error('Not Found');
-  err.status = 404;
-  next(err);
+// app.use((req: Request, res: Response, next: Function) => {
+//   var err: any = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+// instead of 404s we just serve the index for any unknown path
+app.use((req, res, next) => {
+  res.render('index', { title: 'GB top 10' });
 });
 
 // error handlers

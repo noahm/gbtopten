@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from '../globals';
 import { App } from './App';
 import { UsersListContainer } from './users/UsersListContainer';
+import { UserDetailContainer } from './users/UserDetailContainer';
 
 export class Root extends React.Component<void, void> {
     render() {
@@ -13,6 +14,7 @@ export class Root extends React.Component<void, void> {
                 <Router history={browserHistory}>
                     <Route path='/' component={App}>
                         <IndexRoute component={UsersListContainer} />
+                        <Route path='/:username' component={UserDetailContainer} />
                     </Route>
                 </Router>
             </Provider>
