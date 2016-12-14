@@ -29,9 +29,9 @@ Backend
 
 Frontend
 
-- [ ] Create nicer input form for submitting a list (hide once cutoff time arrives)
+- [x] Create nicer input form for submitting a list
 - [x] Set up routes to allow viewing a list of another person
 - [x] Build UI for displaying a list
 - [ ] Build UI for comparing lists between two users
-- [ ] Build alternate UI for app when scoring is not available (index, user detail, user compare)
+- [ ] Build alternate UI for app when scoring is not available (index, user detail, user compare, submit form)
 - [x] Create color scheme and styles to make the site not look like butt

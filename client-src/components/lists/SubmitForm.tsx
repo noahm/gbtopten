@@ -18,13 +18,19 @@ export class SubmitForm extends React.Component<CombinedTypes, void> {
     private input: HTMLInputElement;
 
     render() {
-        return <form onSubmit={this.onSubmitList}>
+        return <form id="SubmitForm" onSubmit={this.onSubmitList}>
             <label>
-                Your list:
-                <input name="listUrl" ref={e => this.input = e} />
+                Join the fun:<br />
+                <input
+                    required
+                    type="url"
+                    title="Submit a link to your top 10 prediction list on giantbomb.com"
+                    placeholder="http://www.giantbomb.com/profile/cathadan/lists/maybe-the-best-of-2009/357929/"
+                    name="listUrl"
+                    ref={e => this.input = e}
+                />
             </label>
-            <br />
-            <button>Submit</button>
+            <button>Submit my list!</button>
         </form>;
     }
 
