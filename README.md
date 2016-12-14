@@ -34,4 +34,4 @@ Frontend
 - [x] Build UI for displaying a list
 - [ ] Build UI for comparing lists between two users
 - [ ] Build alternate UI for app when scoring is not available (index, user detail, user compare)
-- [ ] Create color scheme and styles to make the site not look like butt
+- [x] Create color scheme and styles to make the site not look like butt

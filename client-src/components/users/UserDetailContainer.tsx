@@ -9,8 +9,8 @@ import { fetchUsers } from '../../actions/users';
 
 function mapStateToProps(state: GlobalState, props: UserDetailProps): ConnectedProps {
     return {
-        user: state.users ? state.users.list[props.params.username] : null,
-        list: state.lists ? state.lists.lists[props.params.username] : null,
+        user: state.users.list ? state.users.list[props.params.username] : null,
+        list: state.lists.lists ? state.lists.lists[props.params.username] : null,
     };
 }
 

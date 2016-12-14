@@ -9,50 +9,22 @@ import { GlobalState } from '../state/GlobalState';
 import { UserEntry } from '../../models/UserEntry';
 import { ServerState, UserDict } from '../../models/ServerState';
 import { FetchProgress } from '../../models/FetchProgress';
+import { UsersListContainer } from './users/UsersListContainer';
 
-function mapStateToProps(state: GlobalState): ConnectedProps {
-    return {
-        usersProgress: state.users.progress,
+interface AppProps {
+    params: {
+        username?: string;
+        other_username?: string;
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
-    return bindActionCreators({
-        fetchUsers: () => dispatch(fetchUsers),
-    }, dispatch);
-}
-
-interface ConnectedProps {
-    usersProgress: FetchProgress;
-}
-
-interface ConnectedDispatch {
-    fetchUsers: () => void;
-}
-
-type AppProps = ConnectedProps & ConnectedDispatch;
-
-class AppClass extends Component<AppProps, void> {
-    componentWillMount() {
-        if (this.props.usersProgress === FetchProgress.Pending) {
-            this.props.fetchUsers();
-        }
-    }
-
+export class App extends Component<AppProps, void> {
     render() {
-        switch (this.props.usersProgress) {
-            case FetchProgress.Errored:
-                return <div>Failed to fetch user list</div>;
-            case FetchProgress.Done:
-                return <div>
-                    {this.props.children}
-                </div>;
-            case FetchProgress.Pending:
-            case FetchProgress.InFlight:
-            default:
-                return <div>Loading users...</div>;
-        }
+        return <div id="App">
+            <UsersListContainer selectedUser={this.props.params.username} comparedUser={this.props.params.other_username} />
+            <div id="contents">
+                {this.props.children}
+            </div>
+        </div>;
     }
 }
-
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 
 import { store } from '../globals';
 import { App } from './App';
-import { UsersListContainer } from './users/UsersListContainer';
 import { UserDetailContainer } from './users/UserDetailContainer';
 
 export class Root extends React.Component<void, void> {
@@ -13,8 +12,7 @@ export class Root extends React.Component<void, void> {
             <Provider store={store}>
                 <Router history={browserHistory}>
                     <Route path='/' component={App}>
-                        <IndexRoute component={UsersListContainer} />
-                        <Route path='/:username' component={UserDetailContainer} />
+                        <Route path='/user/:username' component={UserDetailContainer} />
                     </Route>
                 </Router>
             </Provider>
