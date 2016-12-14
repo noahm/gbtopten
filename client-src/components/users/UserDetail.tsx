@@ -14,7 +14,7 @@ export interface ConnectedProps {
 }
 
 export interface ConnectedDispatch {
-    fetchList(username: string): Promise<any>;
+    fetchList(username: string): void;
 }
 
 type CombinedTypes = UserDetailProps & ConnectedProps & ConnectedDispatch;

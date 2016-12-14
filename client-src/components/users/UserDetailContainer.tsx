@@ -16,7 +16,7 @@ function mapStateToProps(state: GlobalState, props: UserDetailProps): ConnectedP
 
 function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
     return bindActionCreators({
-        fetchList: (username: string) => dispatch(fetchList(username)),
+        fetchList,
     }, dispatch);
 }
 
