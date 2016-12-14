@@ -26,7 +26,7 @@ export function getListData(url: string): Promise<ListResp> {
                         title: node.querySelector('h3').innerHTML,
                         url: (node.querySelector('a') as HTMLAnchorElement).href,
                         thumbnailUrl: (node.querySelector('img') as HTMLImageElement).src,
-                    }))
+                    })).slice(0, 10),
                 };
             } catch (e) {
                 resolve({ status: "error", reason: "parse-failed" });
