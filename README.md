@@ -25,11 +25,13 @@ Backend
 - [x] Add endpoint to return a list for a given username (support multiple usernames?)
 - [ ] Add some endpoint for setting the target list to apply scoring (potentially hard-code to a pre-created list to be updated)
 - [x] Configure routes to always serve index as the default unless another endpoint is hit
+- [ ] Update storage persistance to use firebase
 
 Frontend
 
 - [ ] Create nicer input form for submitting a list (hide once cutoff time arrives)
 - [x] Set up routes to allow viewing a list of another person
-- [ ] Build UI for displaying a list (scored and unscored)
-- [ ] Build UI for comparing lists between two users (scored and unscored)
+- [x] Build UI for displaying a list
+- [ ] Build UI for comparing lists between two users
+- [ ] Build alternate UI for app when scoring is not available (index, user detail, user compare)
 - [ ] Create color scheme and styles to make the site not look like butt
