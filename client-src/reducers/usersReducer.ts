@@ -4,8 +4,9 @@ import {
     FetchUsersStarted, FetchUsersSucceeded, FetchUsersFailed,
     FETCH_USERS_STARTED, FETCH_USERS_SUCCEEDED, FETCH_USERS_FAILED,
 } from '../actions/users';
+import { FetchListSucceeded, FETCH_LIST_SUCCEEDED } from '../actions/lists';
 
-type Actions = FetchUsersStarted | FetchUsersSucceeded | FetchUsersFailed;
+type Actions = FetchUsersStarted | FetchUsersSucceeded | FetchUsersFailed | FetchListSucceeded;
 
 const initialState: UsersState = {
     list: null,
@@ -30,6 +31,20 @@ export function usersReducer(state: UsersState = initialState, action: Actions) 
             state = {
                 list: action.users,
                 progress: FetchProgress.Done,
+            };
+            break;
+        case FETCH_LIST_SUCCEEDED:
+            if (!state.list) {
+                state.list = {};
+            }
+            state.list[action.list.author] = {
+                username: action.list.author,
+                lastEntry: Date.now(),
+                listScore: action.list.score.totalScore,
+            };
+            state = {
+                list: state.list,
+                progress: state.progress,
             };
             break;
     }
