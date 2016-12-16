@@ -21,9 +21,8 @@ TODO
 
 Backend
 
-- [ ] Flesh out submissions endpoint to reject entries after cutoff time
-- [ ] Add some endpoint for setting the target list to apply scoring (potentially hard-code to a pre-created list to be updated)
-- [ ] Update storage persistance to use firebase
+- [x] Flesh out submissions endpoint to reject entries after cutoff time
+- [x] Add some endpoint for setting the target list to apply scoring (potentially hard-code to a pre-created list to be updated)
 - [x] Add endpoint to return a list for a given username
 - [x] Configure routes to always serve index as the default unless another endpoint is hit
 
@@ -40,3 +39,4 @@ Frontend
 Future
 
 - [ ] Gate entry to require lists to include a given phrase in the deck.
+- [ ] Update storage persistance to use firebase

@@ -51,7 +51,6 @@
     "mongoose": "^4.3.6",
     "morgan": "~1.6.1",
     "pow-mongodb-fixtures": "^0.13.0",
-    "q": "^1.4.1",
     "serve-favicon": "~2.3.0",
     "should": "^8.1.1",
     "should-http": "0.0.4",

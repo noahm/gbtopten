@@ -1,35 +1,57 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { getListData } from '../utils/gblist';
+import { getListData, refreshTarget } from '../utils/gblist';
 import { PostList } from '../../models/responses';
 import * as storage from '../storage';
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/users', (req, res, next) => {
   const db = storage.get();
   res.json(db.getUsers());
 });
 
-/* GB list proxy */
-const gbRegex = /^https?:\/\/www.giantbomb.com\/profile\//i;
+router.put('/rescore', async (req, res, next) => {
+  const rescoreResult = await refreshTarget();
+  if (rescoreResult.status === "error") {
+    switch (rescoreResult.reason) {
+      case "too-soon":
+        res.status(429);
+        break;
+
+      case "parse-failed":
+      default:
+        res.status(500);
+        break;
+    }
+  } else {
+    const db = storage.get();
+    db.setTargetList(rescoreResult.targetList);
+    db.save();
+  }
+
+  res.json(rescoreResult);
+});
+
 router.post('/list', bodyParser.text(), (req, res, next) => {
-  if (!req.body || !gbRegex.test(req.body)) {
+  const db = storage.get();
+  if (db.getTargetList()) {
     const errResp: PostList = {
       status: "error",
-      reason: "not-a-list",
+      reason: "submissions-closed",
     };
-    res.status(400);
-    return res.json(errResp);
+    res.status(400).json(errResp);
+    return;
   }
 
   getListData(req.body).then(resp => {
-    const db = storage.get();
     if (resp.status === 'ok') {
       db.addUserList(resp.list);
       db.save();
     } else if (resp.reason === "parse-failed") {
       res.status(500);
+    } else if (resp.reason === "not-a-list") {
+      res.status(400);
     }
     res.json(resp);
   });
@@ -42,5 +64,3 @@ router.get('/list/:username', (req, res, next) => {
   }
   res.json(resp);
 });
-
-export default router;

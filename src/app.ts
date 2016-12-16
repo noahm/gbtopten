@@ -5,7 +5,7 @@ import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 
-import apiRoutes from './routes/api';
+import { router as apiRoutes } from './routes/api';
 import * as storage from './storage';
 
 export const app = express();

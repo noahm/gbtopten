@@ -1,6 +1,7 @@
 import { GameListDict } from '../../models/ServerState';
-import { FetchProgress } from '../../models/FetchProgress';
+import { GameList } from '../../models/GameList';
 
 export interface ListsState {
     lists: GameListDict;
+    targetList: GameList;
 }

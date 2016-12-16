@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-import { FetchProgress } from '../../../models/FetchProgress';
+import { GameList } from '../../../models/GameList';
 import { PostList } from '../../../models/responses';
 
-export interface UsersListProps extends React.Props<SubmitForm> {}
+export interface SubmitFormProps extends React.Props<SubmitForm> {}
 
 export interface ConnectedProps {
 }
 
 export interface ConnectedDispatch {
-
+    fetchListSucceeded(list: GameList): void;
 }
 
-type CombinedTypes = UsersListProps & ConnectedProps;
+type CombinedTypes = SubmitFormProps & ConnectedProps & ConnectedDispatch;
 
 interface SubmitFormState {
     expanded?: boolean;
@@ -64,21 +64,12 @@ export class SubmitForm extends React.Component<CombinedTypes, SubmitFormState> 
             method: 'POST',
             body: this.input.value,
         }).then(resp => {
-            if (!resp.ok) {
-                console.error(resp);
-                return;
-            } else {
-                return resp.json() as Promise<PostList>;
-            }
+            return resp.json() as Promise<PostList>;
         }).then(data => {
-            if (data.status === "error") {
-                // this.setState({
-                //     errorMsg: data.reason,
-                // });
+            if (!data || data.status === "error") {
+                console.error();
             } else {
-                // this.setState({
-                //     errorMsg: null,
-                // });
+                this.props.fetchListSucceeded(data.list);
             }
         });
     };

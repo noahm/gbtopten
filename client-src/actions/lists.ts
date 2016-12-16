@@ -5,14 +5,13 @@ import { GameList } from '../../models/GameList';
 import { GetList } from '../../models/responses';
 
 // Fetch List Succeeded
-export type FETCH_LIST_SUCCEEDED = 'FETCH_LIST_SUCCEEDED';
-export const FETCH_LIST_SUCCEEDED: FETCH_LIST_SUCCEEDED = 'FETCH_LIST_SUCCEEDED';
+export const FETCH_LIST_SUCCEEDED = 'FETCH_LIST_SUCCEEDED';
 export type FetchListSucceeded = {
-    type: FETCH_LIST_SUCCEEDED;
+    type: typeof FETCH_LIST_SUCCEEDED;
     list: GameList,
 };
 
-function fetchListSucceeded(list: GameList): FetchListSucceeded {
+export function fetchListSucceeded(list: GameList): FetchListSucceeded {
     return { type: FETCH_LIST_SUCCEEDED, list };
 }
 
@@ -31,4 +30,14 @@ export function fetchList(username: string) {
         });
         return request;
     };
+}
+
+export const TARGET_LIST_UPDATED = 'TARGET_LIST_UPDATED';
+export type TargetListUpdated = {
+    type: typeof TARGET_LIST_UPDATED,
+    list: GameList,
+};
+
+export function targetListUpdated(list: GameList): TargetListUpdated {
+    return { type: TARGET_LIST_UPDATED, list };
 }

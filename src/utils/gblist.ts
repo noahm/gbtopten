@@ -1,18 +1,29 @@
 import * as jsdom from 'jsdom';
 import { GameList } from '../../models/GameList';
 import { ListScore } from '../../models/ListScore';
-import { PostList as ListResp } from '../../models/responses';
+import { PostList as ListResp, PutRescore as RescoreResp } from '../../models/responses';
+
+const gbRegex = /^https?:\/\/www.giantbomb.com\/profile\//i;
 
 export function getListData(url: string): Promise<ListResp> {
-    if (!url) {
-        return Promise.reject({});
+    if (!gbRegex.test(url)) {
+        return Promise.resolve<ListResp>({
+            status: "error",
+            reason: "not-a-list",
+            extra: "failed-regex",
+        });
     }
+
     return new Promise<ListResp>((resolve, reject) => {
         jsdom.env(url, (err, window) => {
             const document = window.document;
             const list = document.querySelector('.user-list');
             if (!list) {
-                resolve({ status: "error", reason: "not-a-list" });
+                resolve({
+                    status: "error",
+                    reason: "not-a-list",
+                    extra: "no-list-in-dom",
+                });
                 return;
             }
 
@@ -36,6 +47,24 @@ export function getListData(url: string): Promise<ListResp> {
             resolve({ status: "ok", list: gameList });
         });
     });
+}
+
+const targetListUrl = "http://www.giantbomb.com/profile/cathadan/lists/the-gb-2016-goty-top-10/357986/";
+let lastTargetFetch = 0;
+export async function refreshTarget(): Promise<RescoreResp> {
+    const now = Date.now();
+    if (now - lastTargetFetch < 600000) {
+        // only allow fetch of target list once every 10 minutes
+        return { status: "error", reason: "too-soon" };
+    }
+
+    lastTargetFetch = now;
+    const data = await getListData(targetListUrl);
+    if (data.status !== "ok") {
+        return { status: "error", reason: "parse-failed" };
+    }
+
+    return { status: "ok", targetList: data.list };
 }
 
 export class ListGrader {

@@ -4,7 +4,8 @@ export type PostList = PostListError | PostListSucces;
 
 interface PostListError {
     status: "error";
-    reason: "not-a-list" | "parse-failed";
+    reason: "not-a-list" | "parse-failed" | "submissions-closed";
+    extra?: string;
 }
 
 interface PostListSucces {
@@ -25,3 +26,15 @@ interface GetListSuccess {
 }
 
 export type GetLists = { [username: string]: GetList };
+
+export type PutRescore = PutRescoreError | PutRescoreSuccess;
+
+interface PutRescoreError {
+    status: "error";
+    reason: "too-soon" | "parse-failed";
+}
+
+interface PutRescoreSuccess {
+    status: "ok";
+    targetList: GameList;
+}

@@ -57,6 +57,7 @@ class Storage {
     getDB = () => this.db;
     getUsers = () => this.db.users;
     getLists = () => this.db.lists;
+    getTargetList = () => this.db.targetList;
     getGrader = () => this.grader;
 
     getList(username: string): GetList {
@@ -69,8 +70,30 @@ class Storage {
             return {
                 status: "error",
                 reason: "not-found",
-            }
+            };
         }
+    }
+
+    setTargetList(list: GameList) {
+        this.db.targetList = list;
+        if (list) {
+            this.grader = new ListGrader(list);
+            this.rescoreEntries();
+        } else {
+            this.grader = null;
+        }
+    }
+
+    private rescoreEntries() {
+        if (!this.grader) {
+            return;
+        }
+        Object.keys(this.db.lists).forEach(username => {
+            const list = this.db.lists[username];
+            const user = this.db.users[username];
+            list.score = this.grader.getScore(list);
+            user.listScore = list.score.totalScore;
+        });
     }
 
     addUserList(list: GameList) {

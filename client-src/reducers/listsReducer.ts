@@ -6,6 +6,7 @@ type Actions = FetchListSucceeded;
 
 const initialState: ListsState = {
     lists: {},
+    targetList: null,
 };
 
 export function listsReducer(state: ListsState = initialState, action: Actions) {
@@ -14,6 +15,7 @@ export function listsReducer(state: ListsState = initialState, action: Actions) 
             state.lists[action.list.author] = action.list;
             state = {
                 lists: state.lists,
+                targetList: state.targetList,
             };
             break;
     }

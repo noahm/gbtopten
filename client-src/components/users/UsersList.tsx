@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { FetchProgress } from '../../../models/FetchProgress';
 import { UserDict } from '../../../models/ServerState';
 
-import { SubmitForm } from '../lists/SubmitForm';
+import { SubmitFormContainer } from '../lists/SubmitFormContainer';
 
 export interface UsersListProps extends React.Props<UsersList> {
     selectedUser?: string;
@@ -49,7 +49,7 @@ export class UsersList extends React.Component<CombinedTypes, void> {
         }
         const usernames = Object.keys(this.props.users);
         return <div id="UsersList">
-            <SubmitForm />
+            <SubmitFormContainer />
             <h1>Participating users:</h1>
             <ul>
                 {usernames.map(username => {
