@@ -28,7 +28,7 @@ export class UserDetail extends React.Component<CombinedTypes, void> {
 
     componentWillReceiveProps(nextProps: CombinedTypes) {
         if (this.props.user !== nextProps.user && !nextProps.list) {
-            this.props.fetchList(this.props.params.username);
+            this.props.fetchList(nextProps.params.username);
         }
     }
 
