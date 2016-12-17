@@ -1,14 +1,6 @@
 import { Component } from 'react';
 import * as React from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 
-import { fetchUsers } from '../actions/users';
-import { GlobalState } from '../state/GlobalState';
-
-import { UserEntry } from '../../models/UserEntry';
-import { ServerState, UserDict } from '../../models/ServerState';
-import { FetchProgress } from '../../models/FetchProgress';
 import { UsersListContainer } from './users/UsersListContainer';
 
 interface AppProps {

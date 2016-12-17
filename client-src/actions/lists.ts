@@ -41,3 +41,16 @@ export type TargetListUpdated = {
 export function targetListUpdated(list: GameList): TargetListUpdated {
     return { type: TARGET_LIST_UPDATED, list };
 }
+
+export function fetchTargetList() {
+    return (dispatch: Dispatch<any>, getState: GlobalStateGetter) => {
+        return fetch('/api/targetlist').then(r => r.json() as Promise<GetList>).then(response => {
+            if (response && response.status === "ok") {
+                dispatch(targetListUpdated(response.list));
+            } else {
+                const msg = 'Failed to fetch target list data' + (response && response.status === "error" ? response.reason : "no-response");
+                throw new Error(msg);
+            }
+        });
+    };
+}

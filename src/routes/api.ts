@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
 import { getListData, refreshTarget } from '../utils/gblist';
-import { PostList } from '../../models/responses';
+import { PostList, GetList } from '../../models/responses';
 import * as storage from '../storage';
 export const router = express.Router();
 
@@ -62,5 +62,14 @@ router.get('/list/:username', (req, res, next) => {
   if (resp.status === "error") {
     res.status(404);
   }
+  res.json(resp);
+});
+
+router.get('/targetlist', (req, res, next) => {
+  const list = storage.get().getTargetList();
+  let resp: GetList = {
+    status: "ok",
+    list,
+  };
   res.json(resp);
 });

@@ -1,8 +1,10 @@
 import { ListsState } from '../state/ListsState';
-import { FetchProgress } from '../../models/FetchProgress';
-import { FetchListSucceeded, FETCH_LIST_SUCCEEDED } from '../actions/lists';
+import {
+    FetchListSucceeded, FETCH_LIST_SUCCEEDED,
+    TargetListUpdated, TARGET_LIST_UPDATED,
+} from '../actions/lists';
 
-type Actions = FetchListSucceeded;
+type Actions = FetchListSucceeded | TargetListUpdated;
 
 const initialState: ListsState = {
     lists: {},
@@ -16,6 +18,12 @@ export function listsReducer(state: ListsState = initialState, action: Actions) 
             state = {
                 lists: state.lists,
                 targetList: state.targetList,
+            };
+            break;
+        case TARGET_LIST_UPDATED:
+            state = {
+                lists: state.lists,
+                targetList: action.list,
             };
             break;
     }

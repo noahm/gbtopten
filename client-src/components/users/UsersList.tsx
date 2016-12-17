@@ -14,10 +14,12 @@ export interface UsersListProps extends React.Props<UsersList> {
 export interface ConnectedProps {
     users: UserDict;
     usersProgress: FetchProgress;
+    showScores: boolean;
 }
 
 export interface ConnectedDispatch {
     fetchUsers: () => void;
+    fetchTargetList: () => void;
 }
 
 type CombinedTypes = UsersListProps & ConnectedProps & ConnectedDispatch;
@@ -26,8 +28,16 @@ export class UsersList extends React.Component<CombinedTypes, void> {
     componentWillMount() {
         if (this.props.usersProgress === FetchProgress.Pending) {
             this.props.fetchUsers();
+            this.props.fetchTargetList();
         }
     }
+
+    private static styles = {
+        score: {
+            float: 'right',
+            paddingLeft: '5px',
+        },
+    };
 
     render() {
         let placeholder: string;
@@ -48,6 +58,11 @@ export class UsersList extends React.Component<CombinedTypes, void> {
             return <div id="UsersList">{placeholder}</div>;
         }
         const usernames = Object.keys(this.props.users);
+        if (this.props.showScores) {
+            usernames.sort((a, b) => this.props.users[a].listScore - this.props.users[b].listScore);
+        } else {
+            usernames.sort((a, b) => this.props.users[a].lastEntry - this.props.users[b].lastEntry);
+        }
         return <div id="UsersList">
             <SubmitFormContainer />
             <h1>Participating users:</h1>
@@ -55,7 +70,8 @@ export class UsersList extends React.Component<CombinedTypes, void> {
                 {usernames.map(username => {
                     const classname = username === this.props.selectedUser ? 'selected' : '';
                     return <Link key={username} to={`/user/${encodeURI(username)}`}><li className={classname}>
-                        {username}
+                        <span>{username}</span>
+                        {this.props.showScores ? <span style={UsersList.styles.score}>{this.props.users[username].listScore}pts</span> : null}
                     </li></Link>;
                 })}
             </ul>

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { UserDetailProps, ConnectedProps, ConnectedDispatch, UserDetail } from './UserDetail';
 import { GlobalState } from '../../state/GlobalState';
 import { fetchList } from '../../actions/lists';
-import { fetchUsers } from '../../actions/users';
 
 function mapStateToProps(state: GlobalState, props: UserDetailProps): ConnectedProps {
     return {

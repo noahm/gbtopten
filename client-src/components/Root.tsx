@@ -7,8 +7,6 @@ import { App } from './App';
 import { UserDetailContainer } from './users/UserDetailContainer';
 
 import { PutRescore } from '../../models/responses';
-import { targetListUpdated } from '../actions/lists';
-import { fetchUsers } from '../actions/users';
 
 export class Root extends React.Component<void, void> {
     render() {
