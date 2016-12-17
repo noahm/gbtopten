@@ -41,6 +41,7 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+  console.log('starting server in development mode');
   app.use((err: any, req: Request, res: Response, next: Function) => {
     res.status(err.status || 500);
     res.render('error', {
@@ -48,6 +49,8 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
+} else {
+  console.log('starting server in production mode');
 }
 
 // production error handler
