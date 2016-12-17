@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var clean = require('gulp-clean');
 var server = require('gulp-develop-server');
-var mocha = require('gulp-mocha');
 let webpack = require('webpack');
 let gutil = require('gulp-util');
 
@@ -48,13 +47,8 @@ gulp.task('clean', function () {
         .pipe(clean())
 });
 
-gulp.task('load:fixtures', function (cb) {
-    var load = require('./fixtures/load');
-    return load.loadData(cb);
-});
-
 gulp.task('server:start', ['ts'], function() {
-    server.listen({path: 'bin/www'}, function(error) {
+    server.listen({path: 'index.js'}, function(error) {
         console.log(error);
     });
 });
@@ -65,18 +59,4 @@ gulp.task('server:restart', ['ts'], function() {
 
 gulp.task('default', ['server:start', 'client:watch'], function() {
     gulp.watch(serverTS, ['server:restart']);
-});
-
-gulp.task('test', ['ts', 'load:fixtures'], function() {
-    return gulp
-        .src('test/*.js', {read: false})
-        // wait for dev server to start properly :(
-        //.pipe(wait(600))
-        .pipe(mocha())
-        .once('error', function () {
-            process.exit(1);
-        })
-        .once('end', function () {
-            process.exit();
-        });
 });

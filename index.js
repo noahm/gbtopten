@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 
 /**
  * Module dependencies.
  */
 
-var { app } = require('../build/app');
+var { app } = require('./build/app');
 var debug = require('debug')('mosway:server');
 var http = require('http');
 
