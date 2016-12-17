@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 
 import { GlobalStateGetter } from "../state/GlobalState";
 import { GameList } from '../../models/GameList';
-import { GetList, PutRescore } from '../../models/responses';
+import { GetList, PutRescore, PostList } from '../../models/responses';
 
 // Fetch List Succeeded
 export const FETCH_LIST_SUCCEEDED = 'FETCH_LIST_SUCCEEDED';
@@ -63,6 +63,36 @@ export function rescore() {
             } else {
                 console.warn(data.reason);
             }
+        });
+    };
+}
+
+export const SUBMIT_LIST_SUCCESS = 'SUBMIT_LIST_SUCCESS';
+export type SubmitListSuccess = {
+    type: typeof SUBMIT_LIST_SUCCESS,
+    list: GameList,
+};
+
+export function submitListSuccess(list: GameList): SubmitListSuccess {
+    return { type: SUBMIT_LIST_SUCCESS, list };
+}
+
+export function submitList(url: string) {
+    return (dispatch: Dispatch<any>) => {
+        return fetch('/api/list', {
+            method: 'POST',
+            body: url,
+        }).then(resp => {
+            return resp.json() as Promise<PostList>;
+        }).then(data => {
+            if (!data) {
+                console.error('submit list failed');
+            } else if (data.status === "error") {
+                console.error('submit list failure:', data.reason);
+            } else {
+                dispatch(submitListSuccess(data.list));
+            }
+            return data;
         });
     };
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { browserHistory } from 'react-router';
 
-import { GameList } from '../../../models/GameList';
 import { PostList } from '../../../models/responses';
 
 export interface SubmitFormProps extends React.Props<SubmitForm> {}
@@ -10,7 +10,7 @@ export interface ConnectedProps {
 }
 
 export interface ConnectedDispatch {
-    fetchListSucceeded(list: GameList): void;
+    submitList(list: string): Promise<PostList>;
 }
 
 type CombinedTypes = SubmitFormProps & ConnectedProps & ConnectedDispatch;
@@ -65,16 +65,9 @@ export class SubmitForm extends React.Component<CombinedTypes, SubmitFormState> 
 
     private onSubmitList = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch('/api/list', {
-            method: 'POST',
-            body: this.input.value,
-        }).then(resp => {
-            return resp.json() as Promise<PostList>;
-        }).then(data => {
-            if (!data || data.status === "error") {
-                console.error();
-            } else {
-                this.props.fetchListSucceeded(data.list);
+        this.props.submitList(this.input.value).then(data => {
+            if (data.status === 'ok') {
+                browserHistory.push('/user/' + encodeURI(data.list.author));
             }
         });
     };

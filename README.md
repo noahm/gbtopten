@@ -36,7 +36,7 @@ Frontend
 
 Future
 
-- [ ] Add UI confirmation of various state changes around submitting a list
+- [x] Add UI confirmation of various state changes around submitting a list
 - [ ] Build UI for comparing lists between two users
 - [ ] Gate entry to require lists to include a given phrase in the deck.
 - [ ] Update storage persistance to use firebase

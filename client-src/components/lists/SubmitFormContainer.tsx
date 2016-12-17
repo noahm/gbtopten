@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import { GlobalState } from '../../state/GlobalState';
-import { fetchListSucceeded } from '../../actions/lists';
+import { submitList } from '../../actions/lists';
 import { SubmitForm, SubmitFormProps, ConnectedProps, ConnectedDispatch } from './SubmitForm';
 
 function mapStateToProps(state: GlobalState, props: SubmitFormProps): ConnectedProps {
@@ -13,9 +13,9 @@ function mapStateToProps(state: GlobalState, props: SubmitFormProps): ConnectedP
 }
 
 function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
-    return bindActionCreators({
-        fetchListSucceeded,
-    }, dispatch);
+    return {
+        submitList: (url: string) => dispatch(submitList(url)),
+    };
 }
 
 export const SubmitFormContainer = connect(mapStateToProps, mapDispatchToProps)(SubmitForm) as React.ComponentClass<SubmitFormProps>;

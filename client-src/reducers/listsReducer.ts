@@ -2,9 +2,10 @@ import { ListsState } from '../state/ListsState';
 import {
     FetchListSucceeded, FETCH_LIST_SUCCEEDED,
     TargetListUpdated, TARGET_LIST_UPDATED,
+    SubmitListSuccess, SUBMIT_LIST_SUCCESS,
 } from '../actions/lists';
 
-type Actions = FetchListSucceeded | TargetListUpdated;
+type Actions = FetchListSucceeded | TargetListUpdated | SubmitListSuccess;
 
 const initialState: ListsState = {
     lists: {},
@@ -14,6 +15,7 @@ const initialState: ListsState = {
 export function listsReducer(state: ListsState = initialState, action: Actions) {
     switch (action.type) {
         case FETCH_LIST_SUCCEEDED:
+        case SUBMIT_LIST_SUCCESS:
             state.lists[action.list.author] = action.list;
             state = {
                 lists: state.lists,

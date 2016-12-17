@@ -4,9 +4,12 @@ import {
     FetchUsersStarted, FetchUsersSucceeded, FetchUsersFailed,
     FETCH_USERS_STARTED, FETCH_USERS_SUCCEEDED, FETCH_USERS_FAILED,
 } from '../actions/users';
-import { FetchListSucceeded, FETCH_LIST_SUCCEEDED } from '../actions/lists';
+import {
+    FetchListSucceeded, FETCH_LIST_SUCCEEDED,
+    SubmitListSuccess, SUBMIT_LIST_SUCCESS,
+} from '../actions/lists';
 
-type Actions = FetchUsersStarted | FetchUsersSucceeded | FetchUsersFailed | FetchListSucceeded;
+type Actions = FetchUsersStarted | FetchUsersSucceeded | FetchUsersFailed | FetchListSucceeded | SubmitListSuccess;
 
 const initialState: UsersState = {
     list: null,
@@ -34,6 +37,7 @@ export function usersReducer(state: UsersState = initialState, action: Actions) 
             };
             break;
         case FETCH_LIST_SUCCEEDED:
+        case SUBMIT_LIST_SUCCESS:
             if (!state.list) {
                 state.list = {};
             }
