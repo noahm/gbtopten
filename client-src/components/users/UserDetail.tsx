@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { FetchProgress } from '../../../models/FetchProgress';
 import { GameList } from '../../../models/GameList';
 import { UserEntry } from '../../../models/UserEntry';
 
@@ -11,6 +10,7 @@ export interface UserDetailProps extends React.Props<UserDetail> {
 export interface ConnectedProps {
     list: GameList;
     user: UserEntry;
+    showScores: boolean;
 }
 
 export interface ConnectedDispatch {
@@ -22,6 +22,12 @@ type CombinedTypes = UserDetailProps & ConnectedProps & ConnectedDispatch;
 export class UserDetail extends React.Component<CombinedTypes, void> {
     componentWillMount() {
         if (!this.props.list) {
+            this.props.fetchList(this.props.params.username);
+        }
+    }
+
+    componentWillReceiveProps(nextProps: CombinedTypes) {
+        if (this.props.user !== nextProps.user && !nextProps.list) {
             this.props.fetchList(this.props.params.username);
         }
     }
@@ -38,14 +44,15 @@ export class UserDetail extends React.Component<CombinedTypes, void> {
                     const seen = seenGames.has(game.url);
                     seenGames.add(game.url);
                     return <li key={i}>
-                        {game.title} - {(!seen && score && score.games[game.url] && score.games[game.url].score) || 0}
+                        {game.title}
+                        {this.props.showScores ? ' - ' + ((!seen && score && score.games[game.url] && score.games[game.url].score) || 0) + 'pts' : null}
                     </li>;
                 })}
             </ul>;
         }
-        return <div>
+        return <div id="UserDetail">
             <h1>Entry by {this.props.params.username}</h1>
-            <h2>Total score: {this.props.user && this.props.user.listScore}</h2>
+            { this.props.showScores ? <h2>Total score: {this.props.user && this.props.user.listScore}</h2> : null}
             {list}
         </div>;
     }

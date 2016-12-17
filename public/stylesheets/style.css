@@ -41,6 +41,10 @@ a {
 #UsersList ul li.selected {
   background-color: #313131;
 }
+#UsersList .score {
+  float: right;
+  padding-left: 5px
+}
 
 #SubmitForm {
   padding-top: 10px;

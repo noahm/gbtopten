@@ -32,13 +32,6 @@ export class UsersList extends React.Component<CombinedTypes, void> {
         }
     }
 
-    private static styles = {
-        score: {
-            float: 'right',
-            paddingLeft: '5px',
-        },
-    };
-
     render() {
         let placeholder: string;
         switch (this.props.usersProgress) {
@@ -71,7 +64,7 @@ export class UsersList extends React.Component<CombinedTypes, void> {
                     const classname = username === this.props.selectedUser ? 'selected' : '';
                     return <Link key={username} to={`/user/${encodeURI(username)}`}><li className={classname}>
                         <span>{username}</span>
-                        {this.props.showScores ? <span style={UsersList.styles.score}>{this.props.users[username].listScore}pts</span> : null}
+                        {this.props.showScores ? <span className="score">{this.props.users[username].listScore}pts</span> : null}
                     </li></Link>;
                 })}
             </ul>
