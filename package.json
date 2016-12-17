@@ -1,7 +1,8 @@
 {
   "name": "gbtopten",
   "scripts": {
-    "now-start": "node index",
+    "build": "node ./node_modules/gulp/bin/gulp build",
+    "serve": "node index",
     "start": "node --expose-gc ./node_modules/gulp/bin/gulp"
   },
   "version": "1.0.0",

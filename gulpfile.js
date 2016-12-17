@@ -21,7 +21,7 @@ webpackCompiler.plugin('compile', () => {
 });
 gulp.task('client:build', function(cb) {
     webpackCompiler.run(function(err, stats) {
-        gutil.log(colors.bold.cyan('Compiled bundles.') + '\n' + stats.toString({ chunks: false, colors: true }));
+        gutil.log(gutil.colors.bold.cyan('Compiled bundles.') + '\n' + stats.toString({ chunks: false, colors: true }));
         cb();
     });
 });
@@ -60,3 +60,5 @@ gulp.task('server:restart', ['ts'], function() {
 gulp.task('default', ['server:start', 'client:watch'], function() {
     gulp.watch(serverTS, ['server:restart']);
 });
+
+gulp.task('build', ['ts', 'client:build']);
