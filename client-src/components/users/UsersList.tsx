@@ -50,11 +50,11 @@ export class UsersList extends React.Component<CombinedTypes, void> {
         if (placeholder) {
             return <div id="UsersList">{placeholder}</div>;
         }
-        const usernames = Object.keys(this.props.users);
+        let usernames = Object.keys(this.props.users);
         if (this.props.showScores) {
-            usernames.sort((a, b) => this.props.users[a].listScore - this.props.users[b].listScore);
+            usernames = usernames.sort((a, b) => this.props.users[a].listScore - this.props.users[b].listScore);
         } else {
-            usernames.sort((a, b) => this.props.users[a].lastEntry - this.props.users[b].lastEntry);
+            usernames = usernames.sort((a, b) => this.props.users[a].lastEntry - this.props.users[b].lastEntry);
         }
         return <div id="UsersList">
             <SubmitFormContainer />
