@@ -28,8 +28,7 @@ Backend
 
 Frontend
 
-- [ ] Build alternate UI for app when scoring is not available (index, user detail, user compare, submit form)
-- [ ] Add UI confirmation of various state changes around submitting a list
+- [x] Build alternate UI for app when scoring is not available (index, user detail, user compare, submit form)
 - [x] Create nicer input form for submitting a list
 - [x] Set up routes to allow viewing a list of another person
 - [x] Build UI for displaying a list
@@ -37,6 +36,7 @@ Frontend
 
 Future
 
+- [ ] Add UI confirmation of various state changes around submitting a list
 - [ ] Build UI for comparing lists between two users
 - [ ] Gate entry to require lists to include a given phrase in the deck.
 - [ ] Update storage persistance to use firebase
