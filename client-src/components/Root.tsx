@@ -6,7 +6,7 @@ import { store } from '../globals';
 import { App } from './App';
 import { UserDetailContainer } from './users/UserDetailContainer';
 
-import { PutRescore } from '../../models/responses';
+import { rescore } from '../actions/lists';
 
 export class Root extends React.Component<void, void> {
     render() {
@@ -24,12 +24,6 @@ export class Root extends React.Component<void, void> {
 
 window['gbtopten'] = {
     rescore() {
-        fetch('/api/rescore', { method: 'PUT' }).then(r => r.json() as Promise<PutRescore>).then(data => {
-            if (data.status === "ok") {
-                console.log(data.status);
-            } else {
-                console.warn(data.reason);
-            }
-        });
+        store.dispatch(rescore());
     },
 };

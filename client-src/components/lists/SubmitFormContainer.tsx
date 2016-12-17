@@ -7,7 +7,9 @@ import { fetchListSucceeded } from '../../actions/lists';
 import { SubmitForm, SubmitFormProps, ConnectedProps, ConnectedDispatch } from './SubmitForm';
 
 function mapStateToProps(state: GlobalState, props: SubmitFormProps): ConnectedProps {
-    return {};
+    return {
+        entryAvailable: !state.lists.targetList,
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {

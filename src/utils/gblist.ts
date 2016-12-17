@@ -33,8 +33,8 @@ export function getListData(url: string): Promise<ListResp> {
                     title: document.querySelector('article.js-user-list h1').innerHTML,
                     author: document.querySelector('section.profile-title h1').innerHTML,
                     deck: (document.querySelector('article.js-user-list') as HTMLElement).innerText,
-                    games: Array.from(list.children).map(node => ({
-                        title: node.querySelector('h3').innerHTML,
+                    games: Array.from(list.children).map(node => ({ // strips leading numbers from titles of ordered list
+                        title: node.querySelector('h3').innerHTML.replace(/^\d+\. /, ''),
                         url: (node.querySelector('a') as HTMLAnchorElement).href,
                         thumbnailUrl: (node.querySelector('img') as HTMLImageElement).src,
                     })).slice(0, 10),

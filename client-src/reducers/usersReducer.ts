@@ -40,7 +40,7 @@ export function usersReducer(state: UsersState = initialState, action: Actions) 
             state.list[action.list.author] = {
                 username: action.list.author,
                 lastEntry: Date.now(),
-                listScore: action.list.score.totalScore,
+                listScore: action.list.score ? action.list.score.totalScore : 0,
             };
             state = {
                 list: state.list,

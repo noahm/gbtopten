@@ -6,6 +6,7 @@ import { PostList } from '../../../models/responses';
 export interface SubmitFormProps extends React.Props<SubmitForm> {}
 
 export interface ConnectedProps {
+    entryAvailable: boolean;
 }
 
 export interface ConnectedDispatch {
@@ -26,6 +27,10 @@ export class SubmitForm extends React.Component<CombinedTypes, SubmitFormState> 
 
     private input: HTMLInputElement;
     render() {
+        if (!this.props.entryAvailable) {
+            return null;
+        }
+
         let contents: JSX.Element;
         if (this.state.expanded) {
             contents = <form id="SubmitForm" onSubmit={this.onSubmitList}>

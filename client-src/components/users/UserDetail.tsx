@@ -39,16 +39,19 @@ export class UserDetail extends React.Component<CombinedTypes, void> {
         } else {
             const score = this.props.list.score;
             const seenGames = new Set<string>();
-            list = <ul>
+            list = <ol>
                 {this.props.list.games.map((game, i) => {
                     const seen = seenGames.has(game.url);
                     seenGames.add(game.url);
                     return <li key={i}>
-                        {game.title}
+                        <a href={game.url} target="_blank">
+                            <span className="gameImg"><img src={game.thumbnailUrl} /></span>
+                            {game.title}
+                        </a>
                         {this.props.showScores ? ' - ' + ((!seen && score && score.games[game.url] && score.games[game.url].score) || 0) + 'pts' : null}
                     </li>;
                 })}
-            </ul>;
+            </ol>;
         }
         return <div id="UserDetail">
             <h1>Entry by {this.props.params.username}</h1>

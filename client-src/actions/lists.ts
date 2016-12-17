@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 
 import { GlobalStateGetter } from "../state/GlobalState";
 import { GameList } from '../../models/GameList';
-import { GetList } from '../../models/responses';
+import { GetList, PutRescore } from '../../models/responses';
 
 // Fetch List Succeeded
 export const FETCH_LIST_SUCCEEDED = 'FETCH_LIST_SUCCEEDED';
@@ -54,3 +54,16 @@ export function fetchTargetList() {
         });
     };
 }
+
+export function rescore() {
+    return (dispatch: Dispatch<any>) => {
+        return fetch('/api/rescore', { method: 'PUT' }).then(r => r.json() as Promise<PutRescore>).then(data => {
+            if (data.status === "ok") {
+                dispatch(targetListUpdated(data.targetList));
+            } else {
+                console.warn(data.reason);
+            }
+        });
+    };
+}
+

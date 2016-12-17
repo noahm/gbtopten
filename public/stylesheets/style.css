@@ -76,3 +76,15 @@ a {
   border-radius: 4px;
   cursor: pointer;
 }
+
+#UserDetail .gameImg {
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+}
+#UserDetail li img {
+  max-height: 50px;
+  max-width: 60px;
+  vertical-align: middle;
+  margin: 4px 10px;
+}

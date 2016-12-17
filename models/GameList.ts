@@ -9,5 +9,5 @@ export interface GameList {
         url: string;
         thumbnailUrl: string;
     }>;
-    score?: ListScore;
+    score?: ListScore | null;
 }
