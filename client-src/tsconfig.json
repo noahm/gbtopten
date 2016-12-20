@@ -9,6 +9,6 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "suppressImplicitAnyIndexErrors": true,
-        "target": "es6"
+        "target": "es5"
     }
 }
