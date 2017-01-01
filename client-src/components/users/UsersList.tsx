@@ -52,7 +52,7 @@ export class UsersList extends React.Component<CombinedTypes, void> {
         }
         let usernames = Object.keys(this.props.users);
         if (this.props.showScores) {
-            usernames = usernames.sort((a, b) => this.props.users[a].listScore - this.props.users[b].listScore);
+            usernames = usernames.sort((a, b) => this.props.users[b].listScore - this.props.users[b].listScore);
         } else {
             usernames = usernames.sort((a, b) => this.props.users[a].lastEntry - this.props.users[b].lastEntry);
         }
