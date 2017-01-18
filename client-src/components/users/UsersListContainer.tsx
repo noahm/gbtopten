@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,11 +14,11 @@ function mapStateToProps(state: GlobalState, props: UsersListProps): ConnectedPr
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
+function mapDispatchToProps(dispatch: Dispatch<any>, ownProps: UsersListProps): ConnectedDispatch {
     return bindActionCreators({
         fetchUsers,
         fetchTargetList,
     }, dispatch);
 }
 
-export const UsersListContainer = connect(mapStateToProps, mapDispatchToProps)(UsersList) as React.ComponentClass<UsersListProps>;
+export const UsersListContainer = connect(mapStateToProps, mapDispatchToProps)(UsersList);

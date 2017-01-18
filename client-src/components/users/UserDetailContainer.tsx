@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
@@ -14,10 +13,10 @@ function mapStateToProps(state: GlobalState, props: UserDetailProps): ConnectedP
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): ConnectedDispatch {
+function mapDispatchToProps(dispatch: Dispatch<any>, ownProps: UserDetailProps): ConnectedDispatch {
     return bindActionCreators({
         fetchList,
     }, dispatch);
 }
 
-export const UserDetailContainer = connect(mapStateToProps, mapDispatchToProps)(UserDetail) as React.ComponentClass<UserDetailProps>;
+export const UserDetailContainer = connect(mapStateToProps, mapDispatchToProps)(UserDetail);
